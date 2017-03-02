@@ -31,6 +31,7 @@ def walk_tree(start_dir, out_dir):
 
 def extract_times(timestamps, out_dir):
     for entry in timestamps:
+        filename = os.path.basename(entry[0][:-4]).replace("video", "")
         command = [
             'ffmpeg',
             '-ss',
@@ -46,8 +47,9 @@ def extract_times(timestamps, out_dir):
             '44100',
             '-ac',
             '2',
-            '{}.wav'.format(os.path.join(out_dir,
-                            os.path.basename(entry[0][:-4])))
+            '{}_{}-{}.wav'.format(os.path.join(out_dir, filename),
+                                  entry[1],
+                                  entry[2])
         ]
 
         sp.call(command)
@@ -70,5 +72,5 @@ if __name__ == "__main__":
     if first_arg.endswith(".csv"):
         timestamps = read_timestamps(first_arg)
         extract_times(timestamps, out_dir)
-    # else:
-    #     walk_tree(first_arg, out_dir)
+    else:
+        walk_tree(first_arg, out_dir)
