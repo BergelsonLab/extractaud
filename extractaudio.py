@@ -8,7 +8,7 @@ def extract_audio(out_dir, file_in):
     command = [
         'ffmpeg',
         '-i',
-        entry[0],
+        file_in,
         '-vn',
         '-acodec',
         'pcm_s16le',
@@ -16,7 +16,7 @@ def extract_audio(out_dir, file_in):
         '44100',
         '-ac',
         '2',
-        '{}.wav'.format(os.path.join(out_dir, file_in[:-4]))
+        '{}.wav'.format(os.path.join(out_dir, os.path.basename(file_in)[:-4]))
     ]
 
     sp.call(command)
